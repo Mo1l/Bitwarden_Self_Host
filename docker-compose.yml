@@ -13,7 +13,7 @@ services:
       WEBSOCKET_ENABLED: 'true'
  
   nginx:
-    image: nginx:stable-alpine 	#1.15-alpine        # changed to newest version
+    image: nginx:stable-alpine                      # changed to newest version
     restart: always
     ports:
       - "80:80"	                                    # Check up on the port listens
