@@ -2,7 +2,7 @@ version: '3'
 
 services:
   bitwarden:
-    image: bitwardenrs/server:latest #swap tag to raspberry to run on a raspberry pi
+    image: bitwardenrs/server:latest #swap tag to raspberry to run on a raspberry pi <- Not neccessary due to multiarch support from 2021
     expose:
       - "80"
       - "3012"
@@ -13,17 +13,17 @@ services:
       WEBSOCKET_ENABLED: 'true'
  
   nginx:
-    image: nginx:1.15-alpine
+    image: nginx:stable-alpine 	#1.15-alpine				# Why use old image? changed to newest version
     restart: always
     ports:
-      - "80:80"
+      - "80:80"								#Check up on the port listens
       - "443:443"
     volumes:
       - ./data/nginx:/etc/nginx
       - ./data/ssl:/etc/ssl
 
   bw_backup:
-    image: bruceforce/bw_backup:latest #swap tag to rpi3 to run on a raspberry pi
+    image: bruceforce/bw_backup:latest					# Multi-arch support in latest release - > Not neccessarry #swap tag to rpi3 to run on a raspberry pi
     container_name: bw_backup
     restart: on-failure
     depends_on:
