@@ -24,7 +24,7 @@ services:
 
   bw_backup:
     image: bruceforce/bw_backup:latest					# Multi-arch support in latest release - > Not neccessarry #swap tag to rpi3 to run on a raspberry pi
-    container_name: bw_backup_usb
+    container_name: bw_backup
     restart: on-failure
     depends_on:
       - bitwarden
@@ -43,7 +43,7 @@ services:
 
   bw_backup_usb:
     image: bruceforce/bw_backup:latest					# Multi-arch support in latest release - > Not neccessarry #swap tag to rpi3 to run on a raspberry pi
-    container_name: bw_backup
+    container_name: bw_backup_usb
     restart: on-failure
     depends_on:
       - bitwarden
