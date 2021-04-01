@@ -41,3 +41,22 @@ services:
       - UID=0
       - GID=0
 
+  bw_backup_usb:
+    image: bruceforce/bw_backup:latest					# Multi-arch support in latest release - > Not neccessarry #swap tag to rpi3 to run on a raspberry pi
+    container_name: bw_backup
+    restart: on-failure
+    depends_on:
+      - bitwarden
+    volumes:
+      - ./data/bitwarden:/data                  # Where the backup data is located -> No need to change 
+      - /media/usb-backup:/backup               # Where the backup is sent to -> I want to sync with USB-drive
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+    environment:
+      - DB_FILE=/data/db.sqlite3
+      - BACKUP_FILE=/backup/backup.sqlite3
+      - CRON_TIME=0 12 * * *                    # Run once a day at midday.
+      - TIMESTAMP=True
+      - UID=0
+      - GID=0
+
