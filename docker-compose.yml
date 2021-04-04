@@ -2,7 +2,7 @@ version: '3'
 
 services:
   bitwarden:
-    image: bitwardenrs/server:latest                # multiarch support from 2021
+    image: bitwardenrs/server:latest # multiarch support from 2021
     expose:
       - "80"
       - "3012"
@@ -13,17 +13,17 @@ services:
       WEBSOCKET_ENABLED: 'true'
  
   nginx:
-    image: nginx:stable-alpine                      # changed to newest version
+    image: nginx:stable-alpine # changed to newest version
     restart: always
     ports:
-      - "80:80"	                                    # Check up on the port listens
-      - "443:443"
+      - "8080:80" # Check up on the port listens
+      - "8443:443"
     volumes:
       - ./data/nginx:/etc/nginx
       - ./data/ssl:/etc/ssl
 
   bw_backup:
-    image: bruceforce/bw_backup:latest              # Multi-arch support in latest release
+    image: bruceforce/bw_backup:latest # Multi-arch support in latest release
     container_name: bw_backup
     restart: on-failure
     depends_on:
@@ -42,20 +42,20 @@ services:
       - GID=0
 
   bw_backup_usb:
-    image: bruceforce/bw_backup:latest               # Multi-arch support in latest release
+    image: bruceforce/bw_backup:latest # Multi-arch support in latest release
     container_name: bw_backup_usb
     restart: on-failure
     depends_on:
       - bitwarden
     volumes:
-      - ./data/bitwarden:/data                       # Where the backup data is located -> No need to change 
-      - /media/usb-backup:/backup                    # Where the backup is sent to -> I want to sync with USB-drive
+      - ./data/bitwarden:/data # Where the backup data is located -> No need to change 
+      - /media/usb-backup:/backup # Where the backup is sent to -> I want to sync with USB-drive
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
     environment:
       - DB_FILE=/data/db.sqlite3
       - BACKUP_FILE=/backup/backup.sqlite3
-      - CRON_TIME=0 12 * * *                         # Run once a day at midday.
+      - CRON_TIME=0 12 * * * # Run once a day at midday.
       - TIMESTAMP=True
       - UID=0
       - GID=0
